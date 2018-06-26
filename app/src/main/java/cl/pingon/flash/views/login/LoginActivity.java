@@ -1,17 +1,16 @@
-package cl.pingon.flash;
+package cl.pingon.flash.views.login;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.MotionEvent;
-import android.view.View;
 
 import com.firebase.ui.auth.AuthUI;
 
 import java.util.Arrays;
+
+import cl.pingon.flash.data.CurrentUser;
+import cl.pingon.flash.R;
+import cl.pingon.flash.views.main.MainActivity;
 
 
 public class LoginActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package cl.pingon.flash;
+package cl.pingon.flash.data;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -10,4 +10,15 @@ public class CurrentUser {
     public FirebaseUser getCurrentUser() {
         return currentUser;
     }
+
+    public String email() {
+        return getCurrentUser().getEmail();
+    }
+
+    public String sanitizedEmail(String email) {
+        return email.replace("@", "AT").replace(".", "DOT");
+
+
+    }
+
 }
