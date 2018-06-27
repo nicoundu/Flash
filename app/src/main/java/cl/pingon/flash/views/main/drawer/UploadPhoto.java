@@ -7,14 +7,15 @@ import android.util.Log;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import cl.pingon.flash.data.CurrentUser;
+import cl.pingon.flash.data.Nodes;
 import cl.pingon.flash.data.PhotoPreference;
+import cl.pingon.flash.models.LocalUser;
 
 public class UploadPhoto {
 
@@ -26,7 +27,7 @@ public class UploadPhoto {
 
     public void toFirebase(String path) {
 
-        CurrentUser currentUser = new CurrentUser();
+        final CurrentUser currentUser = new CurrentUser();
         String folder = currentUser.sanitizedEmail(currentUser.email() + "/");
         String photoName = "avatar.jpeg";
         String baseUrl = "gs://flash-a7f9f.appspot.com/avatars/";
@@ -46,6 +47,14 @@ public class UploadPhoto {
                     String url = parts[0];
 
                     Log.d("PHOTO_URL", url);
+
+                    LocalUser user = new LocalUser();
+                    user.setEmail(currentUser.email());
+                    user.setName(currentUser.getCurrentUser().getDisplayName());
+                    user.setPhoto(url);
+                    user.setUid(currentUser.uid());
+                    String key = currentUser.sanitizedEmail(currentUser.email());
+                    new Nodes().user(key).setValue(user);
 
                     new PhotoPreference(context).photoSave(url);
 
