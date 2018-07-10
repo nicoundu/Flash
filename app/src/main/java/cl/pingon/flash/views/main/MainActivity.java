@@ -1,5 +1,8 @@
 package cl.pingon.flash.views.main;
 
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import cl.pingon.flash.R;
+import cl.pingon.flash.views.main.finder.FinderDialogFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,8 +32,17 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                android.support.v4.app.Fragment prev = getSupportFragmentManager().findFragmentByTag("finder");
+                if (prev != null){
+                    ft.remove(prev);
+
+                } ft.addToBackStack(null);
+
+                FinderDialogFragment dialogFragment = FinderDialogFragment.newInstance();
+                dialogFragment.show(ft, "finder");
+
+
             }
         });
 

@@ -13,6 +13,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import cl.pingon.flash.data.CurrentUser;
+import cl.pingon.flash.data.EmailProcessor;
 import cl.pingon.flash.data.Nodes;
 import cl.pingon.flash.data.PhotoPreference;
 import cl.pingon.flash.models.LocalUser;
@@ -28,7 +29,7 @@ public class UploadPhoto {
     public void toFirebase(String path) {
 
         final CurrentUser currentUser = new CurrentUser();
-        String folder = currentUser.sanitizedEmail(currentUser.email() + "/");
+        String folder = new EmailProcessor().sanitizedEmail(currentUser.email() + "/");
         String photoName = "avatar.jpeg";
         String baseUrl = "gs://flash-a7f9f.appspot.com/avatars/";
         String refUrl = baseUrl + folder + photoName;
@@ -53,7 +54,7 @@ public class UploadPhoto {
                     user.setName(currentUser.getCurrentUser().getDisplayName());
                     user.setPhoto(url);
                     user.setUid(currentUser.uid());
-                    String key = currentUser.sanitizedEmail(currentUser.email());
+                    String key = new EmailProcessor().sanitizedEmail(currentUser.email());
                     new Nodes().user(key).setValue(user);
 
                     new PhotoPreference(context).photoSave(url);
