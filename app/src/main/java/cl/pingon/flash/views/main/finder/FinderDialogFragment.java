@@ -14,12 +14,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.SpinKitView;
+
 import cl.pingon.flash.R;
 
 public class FinderDialogFragment extends DialogFragment implements FinderCallback{
 
     private EditText editText;
     private ImageButton imageButton;
+    private SpinKitView loading;
 
     public static FinderDialogFragment newInstance() {
         return new FinderDialogFragment();
@@ -45,6 +48,7 @@ public class FinderDialogFragment extends DialogFragment implements FinderCallba
 
         editText = view.findViewById(R.id.userInputEt);
         imageButton = view.findViewById(R.id.sendBtn);
+        loading = view.findViewById(R.id.loadingSkv);
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,8 +56,9 @@ public class FinderDialogFragment extends DialogFragment implements FinderCallba
                 setCancelable(false);
                 editText.setError(null);
                 String email = editText.getText().toString();
-                editText.setVisibility(View.INVISIBLE);
-                imageButton.setVisibility(View.INVISIBLE);
+                editText.setVisibility(View.GONE);
+                imageButton.setVisibility(View.GONE);
+                loading.setVisibility(View.VISIBLE);
                 new UserValidation(FinderDialogFragment.this, getContext()).init(email);
             }
         });
@@ -86,6 +91,8 @@ public class FinderDialogFragment extends DialogFragment implements FinderCallba
     private void restoreViews() {
         editText.setVisibility(View.VISIBLE);
         imageButton.setVisibility(View.VISIBLE);
+        loading.setVisibility(View.GONE);
+
         setCancelable(true);
     }
 }

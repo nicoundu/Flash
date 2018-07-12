@@ -8,4 +8,12 @@
     tools:context=".views.main.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+    <fragment
+        android:name="cl.pingon.flash.views.main.chats.ChatsFragment"
+        android:id="@+id/chatsFg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout="@layout/fragment_chats"/>
+
+
 </android.support.constraint.ConstraintLayout>

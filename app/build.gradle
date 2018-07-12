@@ -34,6 +34,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.github.ybq:Android-SpinKit:1.1.0'
 
 
 }

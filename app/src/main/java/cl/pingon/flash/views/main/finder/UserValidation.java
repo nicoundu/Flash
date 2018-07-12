@@ -3,6 +3,7 @@ package cl.pingon.flash.views.main.finder;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -10,6 +11,8 @@ import com.google.firebase.database.ValueEventListener;
 import cl.pingon.flash.data.CurrentUser;
 import cl.pingon.flash.data.EmailProcessor;
 import cl.pingon.flash.data.Nodes;
+import cl.pingon.flash.data.PhotoPreference;
+import cl.pingon.flash.models.Chat;
 import cl.pingon.flash.models.LocalUser;
 
 public class UserValidation {
@@ -25,7 +28,7 @@ public class UserValidation {
     public void init(String email) {
 
         if (email.trim().length() > 0 ) {
-            if (email.contains("œ")) {
+            if (email.contains("@")) {
                 String currentEmail = new CurrentUser().email();
                 if (!email.equals(currentEmail)) {
                     findUser(email);
@@ -47,7 +50,7 @@ public class UserValidation {
                 LocalUser otherUser = dataSnapshot.getValue(LocalUser.class);
 
                 if (otherUser != null) {
-                    callback.succes();
+                    createChats(otherUser);
                 }else {
                     callback.notFound();
                 }
@@ -58,6 +61,32 @@ public class UserValidation {
 
             }
         });
+
+
+    }
+
+    private void createChats(LocalUser otherUser) {
+        FirebaseUser currentUser = new CurrentUser().getCurrentUser();
+        String photo = new PhotoPreference(context).getPhoto();
+
+        String key = new EmailProcessor().keyEmails(otherUser.getEmail());
+
+        Chat currentChat = new Chat();
+        currentChat.setKey(key);
+        currentChat.setPhoto(otherUser.getPhoto());
+        currentChat.setNotification(true);
+        currentChat.setReceiver(otherUser.getEmail());
+
+        Chat otherChat = new Chat();
+        otherChat.setKey(key);
+        otherChat.setPhoto(photo);
+        otherChat.setNotification(true);
+        otherChat.setReceiver(currentUser.getEmail());
+
+        new Nodes().userChat(currentUser.getUid()).child(key).setValue(currentChat);
+        new Nodes().userChat(otherUser.getUid()).child(key).setValue(otherChat);
+
+        callback.succes();
 
 
     }
