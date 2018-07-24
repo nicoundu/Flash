@@ -8,25 +8,7 @@
     android:background="@color/colorPrimaryDark"
     android:gravity="center">
 
-    <EditText
-        android:background="@color/colorPrimary"
-        android:inputType="textEmailAddress"
-        android:id="@+id/userInputEt"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white"
-        android:hint="Busque por email"
-        android:padding="8dp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"/>
-
-    <ImageButton
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_send_black_24dp"
-        android:id="@+id/sendBtn"
-        android:theme="@style/AccentButton"
-        android:layout_width="52dp"
-        android:layout_height="52dp" />
+    <include layout="@layout/input_send" />
 
     <com.github.ybq.android.spinkit.SpinKitView
         android:visibility="gone"

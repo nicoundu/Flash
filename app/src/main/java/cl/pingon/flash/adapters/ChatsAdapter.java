@@ -37,7 +37,7 @@ public class ChatsAdapter extends FirebaseRecyclerAdapter<Chat, ChatsAdapter.Vie
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Chat chat) {
+    protected void onBindViewHolder(@NonNull final ViewHolder holder, int position, @NonNull Chat chat) {
         Picasso.get().load(chat.getPhoto()).centerCrop().fit().into(holder.photoBiv);
         holder.emailTv.setText(chat.getReceiver());
         if (chat.isNotification()) {
@@ -45,6 +45,14 @@ public class ChatsAdapter extends FirebaseRecyclerAdapter<Chat, ChatsAdapter.Vie
         } else {
             holder.notificationV.setVisibility(View.GONE);
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Chat auxChat = getItem(holder.getAdapterPosition());
+                listener.clicked(auxChat);
+            }
+        });
 
     }
 

@@ -1,6 +1,7 @@
 package cl.pingon.flash.views.main.chats;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,11 +21,12 @@ import cl.pingon.flash.adapters.ChatsAdapter;
 import cl.pingon.flash.data.CurrentUser;
 import cl.pingon.flash.data.Nodes;
 import cl.pingon.flash.models.Chat;
+import cl.pingon.flash.views.chat.ChatActivity;
 
 public class ChatsFragment extends Fragment implements ChatListener {
 
-
-
+    public static final String CHAT = "cl.pingon.flash.views.main.chats.KEY.CHAT";
+    private ChatsAdapter adapter;
 
     public ChatsFragment() {
     }
@@ -52,13 +54,16 @@ public class ChatsFragment extends Fragment implements ChatListener {
                 .setLifecycleOwner(getActivity())
                 .build();
 
-        ChatsAdapter adapter = new ChatsAdapter(options, this);
+        adapter = new ChatsAdapter(options, this);
         recyclerView.setAdapter(adapter);
 
     }
 
     @Override
-    public void clicked(String key, String mail) {
+    public void clicked(Chat chat) {
+        Intent intent = new Intent(getActivity(), ChatActivity.class);
+        intent.putExtra(CHAT, chat);
+        startActivity(intent);
 
     }
 }
